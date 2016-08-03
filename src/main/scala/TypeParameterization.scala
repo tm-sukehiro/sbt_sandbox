@@ -1,5 +1,5 @@
 object TypeParameterization extends App {
-
+  def doesCompile(q: Queue[AnyRef]) {}
 }
 
 class SlowAppendQueue[T](elems: List[T]) { // 効率が悪い
@@ -34,13 +34,18 @@ object Queue {
       else
         this
 
-      def head: T = mirror.leading.head
-      def tail: QueueImpl[T] = {
-        val q = mirror
-        new QueueImpl(q.leading.tail, q.trailing)
-      }
-      def enqueue(x: T) =
-        new QueueImpl(leading, x :: trailing)
+    def head: T = mirror.leading.head
+    def tail: QueueImpl[T] = {
+      val q = mirror
+      new QueueImpl(q.leading.tail, q.trailing)
+    }
+    def enqueue(x: T) =
+      new QueueImpl(leading, x :: trailing)
   }
 }
 
+class Cell[T](init: T) {
+  private[this] var current = init
+  def get = current
+  def set(x: T) { current = x }
+}
